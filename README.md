@@ -1,6 +1,6 @@
-# Personal Site Starter
+# Qorner — Personal Site Starter
 
-A sample personal website using Zola and a customized version of the [Serene](https://github.com/isunjn/serene) theme. The included text, profile, links, and images are placeholders.
+A sample personal website powered by [Zola](https://www.getzola.org/), a static site generator. Its theme, **Qorner**, is a fork of the [Serene](https://github.com/isunjn/serene) theme. The included text, profile, links, and images are placeholders.
 
 ## Requirements
 
@@ -27,10 +27,10 @@ docker compose up --build
 2. Replace `static/img/demo-avatar.svg` with your own image, then update `avatar` in `config.toml`. Keep images you reference under `static/`.
 3. Edit `content/about/_index.md` and `content/about/card.toml` for the About page.
 4. Edit `content/contact/contact.toml` for your contact links. Remove the Contact page from `sections` in `config.toml` if you do not need it.
-5. Replace `content/posts/2026-01-01-welcome.md` with your own Markdown post. Add more `.md` files to `content/posts/`.
+5. Replace `content/posts/2026-01-01-welcome.md` with your own Markdown post. Add more `.md` files to `content/posts/`. Keep `content/posts/_index.md`; it configures the blog section and its templates.
 6. Adjust `sections` in `config.toml` to choose which pages appear in the navigation.
 
-The `templates/`, `sass/`, `static/js/`, and `static/icon/` directories contain the site layout, styles, and theme assets.
+The `templates/`, `sass/`, `static/js/`, and `static/icon/` directories contain Qorner’s layout, styles, and assets.
 
 ## Build for deployment
 
@@ -43,4 +43,4 @@ The generated static site is written to `public/`. For a static hosting provider
 ## Notes
 
 - The GitHub Actions workflow and custom domain file from the original private site have been removed. Add deployment configuration only after choosing your hosting provider.
-- The layout is based on the [Serene theme](https://github.com/isunjn/serene), distributed under the MIT License; its notice is included in `LICENSE`. Check licenses for any other third-party assets you add.
+- Qorner is a fork of [Serene](https://github.com/isunjn/serene), which is distributed under the MIT License. The original license notice is included in `LICENSE`. Check licenses for any other third-party assets you add.
