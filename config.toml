@@ -1,0 +1,76 @@
+base_url = "https://example.com"
+title = "A Sample Site"
+description = "A personal website built with Zola and a customized theme."
+default_language = "en"
+
+output_dir = "public"
+compile_sass = true
+minify_html = false # Keep this false, as it may cause issues with some styles
+build_search_index = false # Keep this false, search is temporarily unsupported
+generate_feeds = false # Whether to generate a feed file in root, read docs for more info about rss feed
+feed_filenames = ["feed.xml"] # "feed.xml" | "atom.xml" | "rss.xml", read docs for more info
+taxonomies = [{ name = "tags" }, { name = "categories" }]
+
+[markdown]
+render_emoji = false
+external_links_target_blank = false
+external_links_no_follow = true
+external_links_no_referrer = true
+smart_punctuation = false
+github_alerts = true
+
+[markdown.highlighting]
+style = "class"
+light_theme = "github-light"
+dark_theme  = "github-dark"
+
+[slugify]
+paths = "on"
+taxonomies = "on"
+anchors = "on"
+
+#=========================================================================================
+
+[extra]
+
+sections = [
+  { name = "posts", path = "/posts", is_external = false },
+  { name = "about", path = "/about", is_external = false },
+  { name = "contact", path = "/contact", is_external = false},
+  # { name = "playlists", path = "/playlists", is_external = false }
+  # { name = "github", path = "https://github.com/your-username", is_external = true }
+]
+blog_section_path = "/posts"
+
+back_link_text = "Back" # Text of the back button
+force_theme = false # false | "light" | "dark"
+
+footer_copyright = "© 2026 Your Name"
+
+# entry_image = "img/sk.jpg"
+entry_image_alt = "Hello"
+
+favicon_32 = "img/favicon.svg"
+favicon_16 = "img/favicon.svg"
+apple_touch = "img/favicon.svg"
+
+name = "Your Name"
+id = ""
+bio = "A short bio goes here. Replace this with a sentence about yourself."
+# bio = "This is a small space for my thoughts, notes, experiments, and lessons learned along the way."
+avatar = "img/demo-avatar.svg"
+links = [
+ # { name = "GitHub", icon = "github", url = "https://github.com/your-username" },
+ # { name = "LinkedIn", icon = "linkedin", url = "https://www.linkedin.com/in/your-username" },
+ # { name = "Email", icon = "email", url = "mailto:hello@example.com" },
+]
+verified = false
+
+footer_credits = false # Whether to show "Built with zola and serene" in footer
+
+not_found_error_text = "404 Not Found"
+not_found_recover_text = "« back to home »"
+
+reaction = false # Whether to enable anonymous emoji reactions (Note: You need to set up a working api endpoint to enable this feature)
+reaction_align = "right" # "left" | "center" | "right"
+reaction_endpoint = "https://example.com/api/reaction"

@@ -1,3 +1,4 @@
+{% import "macros/prose.html" as macros %}
 {% extends "_base.html" %}
 
 {% block page %}prose-page{% endblock page %}
@@ -6,41 +7,40 @@
 {%- endblock lang %}
 {% block title %}{{ section.title }}{% endblock title %}
 {% block desc %}
-  {% if section.description %}
-    {% set desc = section.description %}
-  {% else %}
-    {% set desc = config.description %}
-  {% endif %}
-  {%- if section.extra.lang %}{% set og_lang = section.extra.lang %}{% else %}{% set og_lang = section.lang %}{% endif -%}
-  {{ <seo config
-      title={section.title}
-      desc={desc}
-      url={section.permalink}
-      lang={og_lang} /> }}
+{% if section.description %}
+{% set desc = section.description %}
+{% else %}
+{% set desc = config.description %}
+{% endif %}
+<meta name="description" content="{{ desc }}">
 {% endblock desc %}
 
 {% block head %}
 {% if config.markdown.highlighting.style == "class" %}
-<link id="hl" rel="stylesheet" type="text/css" href="/giallo-{% if color_scheme == "dark" %}dark{% else %}light{% endif %}.css" />
+<link id="hl" rel="stylesheet" type="text/css" href="/hl-{% if config.extra.force_theme == " dark" %}dark{% else
+  %}light{% endif %}.css" />
 {% endif %}
-{% set enable_math = section.extra.math if section.extra.math is defined else (config.extra.math if config.extra.math is defined else false) %}
-{% if enable_math %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/katex.min.css" integrity="sha384-M59ezskvvpvT+a+C1x088YJ3DVmK+wZdX0UkVKalOI4Qi5Nwv0WrvpqHcfa2HQqB" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/katex.min.js" integrity="sha384-7jGyG5zFwmEamqNWdCbpsPn+GTWEis3lnV7X/jXHyhFpJG7ExABLyMapabg8F4+p" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/contrib/copy-tex.min.js" integrity="sha384-Pe2JWbaShhSRT0SESJ9XLPeAsi4yrNi7r/CiH0Coq7giBjK5a6Ae7XcybE8rNlQP" crossorigin="anonymous"></script>
+{% if section.extra.math %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js"
+  integrity="sha384-HORx6nWi8j5/mYA+y57/9/CZc5z8HnEw4WUZWy5yOn9ToKBv1l58vJaufFAn9Zzi" crossorigin="anonymous"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        renderMathInElement(document.body, {
-            delimiters: [
-                { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false },
-                { left: '\\(', right: '\\)', display: false },
-                { left: '\\[', right: '\\]', display: true }
-            ],
-            throwOnError: false
-        });
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false },
+        { left: '\\[', right: '\\]', display: true }
+      ],
+      throwOnError: false
     });
+  });
 </script>
 {% endif %}
 {% endblock head %}
@@ -48,26 +48,30 @@
 {% block content %}
 <div id="wrapper">
   <main>
-    {{ <back_link path={get_url(path="/")} config /> }}
+    {{ macros::back_link(path = get_url(path="/")) }}
+
+    {% include "_section_entry.html" %}
+
     {% include "_section_title.html" %}
     <div>
-      {% set allow_copy = section.extra.code_copy if section.extra.code_copy is defined else (config.extra.code_copy if config.extra.code_copy is defined else false) %}
-      {% if allow_copy %}
+      {% if section.extra.copy %}
       {% set copy_icon = load_data(path="icon/copy.svg") %}
       {% set check_icon = load_data(path="icon/check.svg") %}
-      <div id="copy-cfg" style="display: none;" data-copy-icon="{{ copy_icon }}" data-check-icon="{{ check_icon }}"></div>
+      <div id="copy-cfg" style="display: none;" data-copy-icon="{{ copy_icon }}" data-check-icon="{{ check_icon }}">
+      </div>
       {% endif %}
       <article class="prose">
         {{ section.content | safe }}
       </article>
 
-      {% set show_reaction = section.extra.reaction if section.extra.reaction is defined else (config.extra.reaction if config.extra.reaction is defined else false) %}
+      {% if section.extra.reaction is defined %}{% set show_reaction = section.extra.reaction %}{% else %}{% set
+      show_reaction = config.extra.reaction %}{% endif %}
       {% if show_reaction %}
-      <div class="reaction {{ config.extra.reaction_align }}" data-endpoint="{{ config.extra.reaction_endpoint }}"></div>
+      <div class="reaction {{ config.extra.reaction_align }}" data-endpoint="{{ config.extra.reaction_endpoint }}">
+      </div>
       {% endif %}
 
-      {% set show_comment = section.extra.comment if section.extra.comment is defined else (config.extra.comment if config.extra.comment is defined else false) %}
-      {% if show_comment %}
+      {% if section.extra.comment %}
       <div class="giscus"></div>
       {% include "_giscus_script.html" %}
       {% endif %}
@@ -80,10 +84,9 @@
 
 {% block script %}
 <script src="/js/lightense.min.js"></script>
-{% set enable_mermaid = section.extra.mermaid if section.extra.mermaid is defined else (config.extra.mermaid if config.extra.mermaid is defined else false) %}
-{% if enable_mermaid %}
+{% if section.extra.mermaid %}
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.esm.min.mjs';
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
   mermaid.initialize({ startOnLoad: true });
 </script>
 {% endif %}

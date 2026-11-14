@@ -1,0 +1,94 @@
+{% macro back_link(path) %}
+<header class="top-nav">
+  <nav>
+    <!-- Left: Back -->
+    <div class="nav-left">
+      <a href="{{ path }}" class="back-link">← {{ config.extra.back_link_text }}</a>
+    </div>
+
+    <!-- Center: Avatar -->
+    <div class="nav-center">
+      {% if config.extra.avatar %}
+      <a href="/">
+        <img src="{{ get_url(path=config.extra.avatar) }}" alt="avatar" class="avatar">
+      </a>
+      {% endif %}
+    </div>
+
+    <!-- Right: Menu dropdown -->
+    <div class="nav-right">
+
+      <div class="menu-wrapper">
+
+        <button class="menu-trigger" aria-label="menu">
+          &#9776;
+        </button>
+        <div class="menu-dropdown">
+          {% for s in config.extra.sections %}
+          <a {% if s.is_external %} href="{{ s.path }}" {% else %} href="{{ get_url(path=s.path) }}" {% endif %}>
+            {{ s.name }}
+          </a>
+          {% endfor %}
+
+          {% if not config.extra.force_theme %}
+          {% set moon_icon = load_data(path="icon/moon.svg") %}
+          {% set sun_icon = load_data(path="icon/sun.svg") %}
+          {% set rain_icon = load_data(path="icon/rain.svg") %}
+          {% set cloud_icon = load_data(path="icon/cloud.svg") %}
+
+          <a id="theme-toggle" aria-label="theme switch">
+            <span class="moon-icon">{{ moon_icon | safe }}</span>
+            <span class="sun-icon">{{ sun_icon | safe }}</span>
+          </a>
+
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const trigger = document.querySelector(".menu-trigger");
+    const wrapper = document.querySelector(".menu-wrapper");
+
+    if (trigger && wrapper) {
+      trigger.addEventListener("click", () => {
+        wrapper.classList.toggle("active");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!wrapper.contains(e.target)) {
+          wrapper.classList.remove("active");
+        }
+      });
+    }
+  });
+
+</script>
+{% endmacro %}
+
+
+{% macro callout(name) %}
+<blockquote class="callout {{ name }} {% if title %}has-title{% else %}no-title{% endif %}">
+  {% set icon = load_data(path="icon/" ~ name ~ ".svg") %}
+  {% if title %}
+  <p class="title">
+    <span class="icon">
+      {{ icon | safe }}
+    </span>
+    <strong>{{ title }}</strong>
+  </p>
+  <div class="content">
+    {{ body | markdown | safe }}
+  </div>
+  {% else %}
+  <div class="icon">
+    {{ icon | safe }}
+  </div>
+  <div class="content">
+    {{ body | markdown | safe }}
+  </div>
+  {% endif %}
+</blockquote>
+{% endmacro %}

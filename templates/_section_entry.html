@@ -1,0 +1,6 @@
+{% if config.extra.entry_image %}
+<section id="entry" class="entry-image" class="prose">
+    <img src="{{ get_url(path=config.extra.entry_image) }}" alt="{{ config.extra.entry_image_alt | default(value='') }}"
+        loading="eager">
+</section>
+{% endif %}

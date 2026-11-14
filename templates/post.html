@@ -1,58 +1,54 @@
+{% import "macros/prose.html" as macros %}
 {% extends "_base.html" %}
 
 {% block page %}post{% endblock page %}
 {% block lang -%}
-{%- set section = get_section(path=page.ancestors | last, metadata_only=true) -%}
-{%- if page.extra.lang %}{{page.extra.lang}}{% elif section.extra.lang %}{{section.extra.lang}}{% else %}{{page.lang}}{% endif -%}
+{%- set blog_section_path = config.extra.blog_section_path | trim_start_matches(pat="/") -%}
+{%- set section_md_path = blog_section_path ~ "/_index.md" -%}
+{%- set section = get_section(path=section_md_path, metadata_only=true) -%}
+{%- if page.extra.lang %}{{page.extra.lang}}{% elif section.extra.lang %}{{section.extra.lang}}{% else %}{{page.lang}}{%
+endif -%}
 {%- endblock lang %}
 {% block title %}{{ page.title }}{% endblock title %}
 {% block desc %}
-  {%- set section = get_section(path=page.ancestors | last, metadata_only=true) -%}
-  {% if page.summary %}
-    {% set desc = page.summary %}
-  {% elif page.description %}
-    {% set desc = page.description %}
-  {% elif section.description %}
-    {% set desc = section.description %}
-  {% else %}
-    {% set desc = config.description %}
-  {% endif %}
-  {%- if page.extra.lang %}{% set og_lang = page.extra.lang %}{% elif section.extra.lang %}{% set og_lang = section.extra.lang %}{% else %}{% set og_lang = page.lang %}{% endif -%}
-  {{ <seo config
-      title={page.title}
-      desc={desc}
-      url={page.permalink}
-      page_type="article"
-      image={page.extra?.og_image or ""}
-      colocated_path={page.colocated_path or ""}
-      published={page.date or ""}
-      updated={page.updated or ""}
-      tags={page.taxonomies?.tags or []}
-      lang={og_lang} /> }}
+{% if page.summary %}
+{% set desc = page.summary %}
+{% elif page.description %}
+{% set desc = page.description %}
+{% elif section.description %}
+{% set desc = section.description %}
+{% else %}
+{% set desc = config.description %}
+{% endif %}
+<meta name="description" content="{{ desc }}">
 {% endblock desc %}
 
 {% block head %}
 {% if config.markdown.highlighting.style == "class" %}
-<link id="hl" rel="stylesheet" type="text/css" href="/giallo-{% if color_scheme == "dark" %}dark{% else %}light{% endif %}.css" />
+<link id="hl" rel="stylesheet" type="text/css" href="/hl-{% if config.extra.force_theme == " dark" %}dark{% else
+  %}light{% endif %}.css" />
 {% endif %}
-{% set enable_math = page.extra.math if page.extra.math is defined else (section.extra.math if section.extra.math is defined else (config.extra.math if config.extra.math is defined else false)) %}
-{% if enable_math %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/katex.min.css" integrity="sha384-M59ezskvvpvT+a+C1x088YJ3DVmK+wZdX0UkVKalOI4Qi5Nwv0WrvpqHcfa2HQqB" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/katex.min.js" integrity="sha384-7jGyG5zFwmEamqNWdCbpsPn+GTWEis3lnV7X/jXHyhFpJG7ExABLyMapabg8F4+p" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.6/dist/contrib/copy-tex.min.js" integrity="sha384-Pe2JWbaShhSRT0SESJ9XLPeAsi4yrNi7r/CiH0Coq7giBjK5a6Ae7XcybE8rNlQP" crossorigin="anonymous"></script>
+{% if page.extra.math %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+  integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js"
+  integrity="sha384-HORx6nWi8j5/mYA+y57/9/CZc5z8HnEw4WUZWy5yOn9ToKBv1l58vJaufFAn9Zzi" crossorigin="anonymous"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        renderMathInElement(document.body, {
-            delimiters: [
-                { left: '$$', right: '$$', display: true },
-                { left: '$', right: '$', display: false },
-                { left: '\\(', right: '\\)', display: false },
-                { left: '\\[', right: '\\]', display: true }
-            ],
-            throwOnError: false
-        });
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false },
+        { left: '\\[', right: '\\]', display: true }
+      ],
+      throwOnError: false
     });
+  });
 </script>
 {% endif %}
 {% endblock head %}
@@ -61,7 +57,8 @@
 <div id="wrapper">
   <div id="blank"></div>
   <aside>
-    {% set show_toc = page.extra.toc if page.extra.toc is defined else (section.extra.toc if section.extra.toc is defined else (config.extra.toc if config.extra.toc is defined else false)) %}
+    {% if page.extra.toc is defined %}{% set show_toc = page.extra.toc %}{% else %}{% set show_toc = section.extra.toc
+    %}{% endif %}
     {% if show_toc and page.toc %}
     <nav>
       <ul>
@@ -90,44 +87,47 @@
     {% endif %}
   </aside>
   <main>
-    {{ <back_link path={get_url(path=section.path)} config /> }}
+    {{ macros::back_link(path = get_url(path=section.path)) }}
 
     <div>
-      {% set allow_copy = page.extra.code_copy if page.extra.code_copy is defined else (section.extra.code_copy if section.extra.code_copy is defined else (config.extra.code_copy if config.extra.code_copy is defined else false)) %}
+      {% if page.extra.copy is defined %}{% set allow_copy = page.extra.copy %}{% else %}{% set allow_copy =
+      section.extra.copy %}{% endif %}
       {% if allow_copy %}
       {% set copy_icon = load_data(path="icon/copy.svg") %}
       {% set check_icon = load_data(path="icon/check.svg") %}
-      <div id="copy-cfg" style="display: none;" data-copy-icon="{{ copy_icon }}" data-check-icon="{{ check_icon }}"></div>
+      <div id="copy-cfg" style="display: none;" data-copy-icon="{{ copy_icon }}" data-check-icon="{{ check_icon }}">
+      </div>
       {% endif %}
       <article class="prose">
-        <h1>{{ page.title }}</h1>
-        {% set date_format = section.extra.date_format if section.extra.date_format is defined else (config.extra.date_format if config.extra.date_format is defined else "%b %-d, %Y") %}
+        <h1 class="title">{{ page.title }}</h1>
         <div id="post-info">
           <div id="date">
-            <span id="publish">{{ page.date | date(format=date_format) }}</span>
+            <span id="publish">{{ page.date | date(format="%b %d, %Y") }}</span>
             {% if page.updated and page.updated != page.date -%}
-            <span>Updated on <span id="updated">{{ page.updated | date(format=date_format) }}</span></span>
+            <span>Updated on <span id="updated">{{ page.updated | date(format="%b %d, %Y")
+                }}</span></span>
             {% endif -%}
           </div>
 
           {% if page.taxonomies.tags is defined %}
           <div id="tags">
             {% for tag in page.taxonomies.tags -%}
-            <a class="instant" href="{{ get_taxonomy_url(kind="tags", term=tag) }}"><span>#</span>{{ tag }}</a>
+            {% set tag_slugify = tag | slugify -%}
+            <a class="instant" href="{{ config.base_url ~ '/tags/' ~ tag_slugify }}"><span>#</span>{{ tag }}</a>
             {%- endfor %}
           </div>
           {% endif %}
         </div>
 
-        {% set show_outdated_alert = page.extra.outdated_alert if page.extra.outdated_alert is defined else (section.extra.outdated_alert if section.extra.outdated_alert is defined else (config.extra.outdated_alert if config.extra.outdated_alert is defined else false)) %}
-        {% set outdated_alert_days = page.extra.outdated_alert_days if page.extra.outdated_alert_days is defined else (section.extra.outdated_alert_days if section.extra.outdated_alert_days is defined else (config.extra.outdated_alert_days if config.extra.outdated_alert_days is defined else 120)) %}
+        {% if page.extra.outdate_alert is defined %}{% set show_outdate_alert = page.extra.outdate_alert %}{% else %}{%
+        set show_outdate_alert = section.extra.outdate_alert %}{% endif %}
+        {% if page.extra.outdate_alert_days is defined %}{% set outdate_alert_days = page.extra.outdate_alert_days %}{%
+        else %}{% set outdate_alert_days = section.extra.outdate_alert_days %}{% endif %}
 
-        {% if show_outdated_alert -%}
-        {% set outdated_alert_text_before = section.extra.outdated_alert_text_before if section.extra.outdated_alert_text_before is defined else (config.extra.outdated_alert_text_before if config.extra.outdated_alert_text_before is defined else "") %}
-        {% set outdated_alert_text_after = section.extra.outdated_alert_text_after if section.extra.outdated_alert_text_after is defined else (config.extra.outdated_alert_text_after if config.extra.outdated_alert_text_after is defined else "") %}
-        <blockquote id="outdate_alert" class="markdown-alert-caution hidden" data-days="{{ outdated_alert_days }}"
-          data-alert-text-before="{{ outdated_alert_text_before }}"
-          data-alert-text-after="{{ outdated_alert_text_after }}">
+        {% if show_outdate_alert -%}
+        <blockquote id="outdate_alert" class="callout caution hidden" data-days="{{ outdate_alert_days }}"
+          data-alert-text-before="{{ section.extra.outdate_alert_text_before }}"
+          data-alert-text-after="{{ section.extra.outdate_alert_text_after }}">
           <div class="content"></div>
         </blockquote>
         {% endif %}
@@ -135,12 +135,15 @@
         {{ page.content | safe }}
       </article>
 
-      {% set show_reaction = page.extra.reaction if page.extra.reaction is defined else (section.extra.reaction if section.extra.reaction is defined else (config.extra.reaction if config.extra.reaction is defined else false)) %}
+      {% if page.extra.reaction is defined %}{% set show_reaction = page.extra.reaction %}{% else %}{% set show_reaction
+      = config.extra.reaction %}{% endif %}
       {% if show_reaction %}
-      <div class="reaction {{ config.extra.reaction_align }}" data-endpoint="{{ config.extra.reaction_endpoint }}"></div>
+      <div class="reaction {{ config.extra.reaction_align }}" data-endpoint="{{ config.extra.reaction_endpoint }}">
+      </div>
       {% endif %}
 
-      {% set show_comment = page.extra.comment if page.extra.comment is defined else (section.extra.comment if section.extra.comment is defined else (config.extra.comment if config.extra.comment is defined else false)) %}
+      {% if page.extra.comment is defined %}{% set show_comment = page.extra.comment %}{% else %}{% set show_comment =
+      section.extra.comment %}{% endif %}
       {% if show_comment %}
       <div class="giscus"></div>
       {% include "_giscus_script.html" %}
@@ -154,10 +157,9 @@
 
 {% block script %}
 <script src="/js/lightense.min.js"></script>
-{% set enable_mermaid = page.extra.mermaid if page.extra.mermaid is defined else (section.extra.mermaid if section.extra.mermaid is defined else (config.extra.mermaid if config.extra.mermaid is defined else false)) %}
-{% if enable_mermaid %}
+{% if page.extra.mermaid %}
 <script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.esm.min.mjs';
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
   mermaid.initialize({ startOnLoad: true });
 </script>
 {% endif %}

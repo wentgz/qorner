@@ -5,7 +5,7 @@ function enableThemeToggle() {
   const preferDark = window.matchMedia("(prefers-color-scheme: dark)");
   function toggleTheme(theme) {
     if (theme == "dark") document.body.classList.add('dark'); else document.body.classList.remove('dark');
-    if (hlLink) hlLink.href = `/giallo-${theme}.css`;
+    if (hlLink) hlLink.href = `/hl-${theme}.css`;
     sessionStorage.setItem("theme", theme);
     toggleGiscusTheme(theme);
   }
@@ -243,21 +243,9 @@ function enableReaction() {
   init();
 }
 
-function enableBackLink() {
-  const backLink = document.querySelector('#back-link');
-  if (!backLink) return;
-  backLink.addEventListener('click', (e) => {
-    if (document.referrer && location.href.startsWith(document.referrer) && !location.hash && history.length > 1) {
-      e.preventDefault();
-      history.back();
-    }
-  });
-}
-
 enableThemeToggle();
 enablePrerender();
 enableRssMask();
-enableBackLink();
 if (document.body.classList.contains('post')) {
   enableOutdateAlert();
   addBackToTopBtn();
@@ -269,3 +257,4 @@ if (document.querySelector('.prose')) {
   enableImgLightense();
   enableReaction();
 }
+

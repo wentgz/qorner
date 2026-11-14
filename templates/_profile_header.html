@@ -1,0 +1,58 @@
+<section id="info">
+    {% if config.extra.avatar %}
+    <img src="{{ get_url(path=config.extra.avatar) }}" alt="avatar">
+    {% endif %}
+    <div id="text">
+        <div>
+            <b>
+                <span id="name">{{ config.extra.name }}</span>
+                {% if config.extra.verified %}
+                <span class="verified-icon" title="Verified">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="#1DA1F2">
+                        <path
+                            d="M22.5 12c0 5.8-4.7 10.5-10.5 10.5S1.5 17.8 1.5 12 6.2 1.5 12 1.5 22.5 6.2 22.5 12zm-12 4.6 7.4-7.4-1.4-1.4-6 6-2.6-2.6-1.4 1.4 4 4z" />
+                    </svg>
+                </span>
+                {% endif %}
+                {% if config.extra.id %}
+                <span id="id" class="" data-text="{{ config.extra.id }}">{{ config.extra.id }}</span>
+                {% endif %}
+            </b>
+        </div>
+        {% if config.extra.bio %}
+        <div id="bio"> {{ config.extra.bio }} </div>
+        {% endif %}
+    </div>
+</section>
+
+<section id="brief" class="prose">
+    {{ section.content | trim | safe }}
+</section>
+
+<section id="links">
+    <div id="left">
+        {% for s in config.extra.sections %}
+        <a {% if s.is_external %}href="{{ s.path }}" target="_blank" rel='noreferrer noopener' {% else %}
+            href="{{ get_url(path=s.path) }}" class="instant" {% endif %}>{{ s.name }}</a>
+        {% endfor %}
+    </div>
+    <div id="right">
+        {% for link in config.extra.links %}
+        <a href="{{ link.url }}" aria-label="{{ link.name }}" target="_blank" rel='noreferrer noopener'>
+            {% set icon_path = "icon/" ~ link.icon ~ ".svg" %}
+            {% set icon = load_data(path=icon_path) %}
+            {{ icon | safe }}
+        </a>
+        {% endfor %}
+        {% if not section.extra.footer and not config.extra.force_theme %}
+        {% set moon_icon = load_data(path="icon/moon.svg") %}
+        {% set sun_icon = load_data(path="icon/sun.svg") %}
+        {% set rain_icon = load_data(path="icon/rain.svg") %}
+        {% set cloud_icon = load_data(path="icon/cloud.svg") %}
+        <button id="theme-toggle" aria-label="theme switch">
+            <span class="moon-icon">{{ moon_icon | safe }}</span>
+            <span class="sun-icon">{{ sun_icon | safe }}</span>
+        </button>
+        {% endif %}
+    </div>
+</section>
