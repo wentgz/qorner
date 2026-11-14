@@ -1,6 +1,6 @@
-# Qorner — Personal Site Starter
+# Qorner
 
-A sample personal website powered by [Zola](https://www.getzola.org/), a static site generator. Its theme, **Qorner**, is a fork of the [Serene](https://github.com/isunjn/serene) theme. The included text, profile, links, and images are placeholders.
+A sample personal website powered by [Zola](https://www.getzola.org/), a static site generator. Its theme, **Qorner**, is a fork of the [Serene](https://github.com/isunjn/serene) theme.
 
 ## Requirements
 
@@ -42,5 +42,4 @@ The generated static site is written to `public/`. For a static hosting provider
 
 ## Notes
 
-- The GitHub Actions workflow and custom domain file from the original private site have been removed. Add deployment configuration only after choosing your hosting provider.
 - Qorner is a fork of [Serene](https://github.com/isunjn/serene), which is distributed under the MIT License. The original license notice is included in `LICENSE`. Check licenses for any other third-party assets you add.
