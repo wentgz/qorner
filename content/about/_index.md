@@ -19,4 +19,3 @@ Welcome to this sample site. Replace this paragraph with a short introduction, y
 
 Use the example cards below to add projects, experience, or other highlights.
 
-{{ collection(file="card.toml") }}

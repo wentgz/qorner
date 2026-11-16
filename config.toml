@@ -55,8 +55,8 @@ favicon_16 = "img/favicon.svg"
 apple_touch = "img/favicon.svg"
 
 name = "Qorner"
-id = "hello"
-bio = "A short bio goes here. Replace this with a sentence about yourself."
+id = "@wentgz"
+bio = "A short bio goes here."
 # bio = "This is a small space for my thoughts, notes, experiments, and lessons learned along the way."
 avatar = "img/avatar.jpg"
 links = [

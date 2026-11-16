@@ -1,13 +1,13 @@
 [[collection]]
 type = 'box'
 title = 'GitHub'
-subtitle = 'Code and projects'
+subtitle = ''
 img = 'https://img.icons8.com/?size=100&id=80462&format=png&color=000000'
-link = 'https://github.com/your-username'
+link = 'https://github.com/wentgz/qorner'
 
 [[collection]]
 type = 'box'
-title = 'Email'
-subtitle = 'Say hello'
+title = 'Gmail'
+subtitle = ''
 img = 'https://img.icons8.com/?size=100&id=td499GRWwrWC&format=png&color=000000'
-link = 'mailto:hello@example.com'
+link = 'mailto:quocanhtn.work@gmail.com'
