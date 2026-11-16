@@ -1,0 +1,13 @@
+[[collection]]
+type = 'box'
+title = 'GitHub'
+subtitle = 'Code and projects'
+img = 'https://img.icons8.com/?size=100&id=80462&format=png&color=000000'
+link = 'https://github.com/your-username'
+
+[[collection]]
+type = 'box'
+title = 'Email'
+subtitle = 'Say hello'
+img = 'https://img.icons8.com/?size=100&id=td499GRWwrWC&format=png&color=000000'
+link = 'mailto:hello@example.com'

@@ -1,0 +1,16 @@
+[[collection]]
+type = 'card'
+title = 'Featured project'
+subtitle = 'A short category or role'
+date = '2026'
+link = 'https://example.com'
+icon = 'img/demo-avatar.svg'
+content = 'Write a concise description of a project, role, or accomplishment.'
+
+[[collection]]
+type = 'card'
+title = 'Another highlight'
+subtitle = 'Optional subtitle'
+date = '2025'
+link = 'https://example.com'
+content = 'Add another item, or remove this card if you do not need it.'
