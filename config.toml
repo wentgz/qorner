@@ -58,7 +58,7 @@ name = "Qorner"
 id = "hello"
 bio = "A short bio goes here. Replace this with a sentence about yourself."
 # bio = "This is a small space for my thoughts, notes, experiments, and lessons learned along the way."
-avatar = "img/demo-avatar.svg"
+avatar = "img/avatar.jpg"
 links = [
  # { name = "GitHub", icon = "github", url = "https://github.com/your-username" },
  # { name = "LinkedIn", icon = "linkedin", url = "https://www.linkedin.com/in/your-username" },
