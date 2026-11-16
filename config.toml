@@ -50,9 +50,9 @@ footer_copyright = "© 2026"
 # entry_image = "img/sk.jpg"
 entry_image_alt = "Hello"
 
-favicon_32 = "img/favicon.svg"
-favicon_16 = "img/favicon.svg"
-apple_touch = "img/favicon.svg"
+favicon_32 = "img/favicon.ico"
+favicon_16 = "img/favicon.ico"
+apple_touch = "img/favicon.ico"
 
 name = "Qorner"
 id = "@wentgz"
