@@ -45,7 +45,7 @@ blog_section_path = "/posts"
 back_link_text = "Back" # Text of the back button
 force_theme = false # false | "light" | "dark"
 
-footer_copyright = "© 2026 Qorner"
+footer_copyright = "© 2026"
 
 # entry_image = "img/sk.jpg"
 entry_image_alt = "Hello"
