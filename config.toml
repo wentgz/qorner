@@ -1,6 +1,6 @@
-base_url = "https://example.com"
-title = "A Sample Site"
-description = "A personal website built with Zola and a customized theme."
+base_url = "https://qorner.pages.dev"
+title = "Qorner"
+description = "This is Qorner – A personal website built with Zola."
 default_language = "en"
 
 output_dir = "public"
@@ -45,7 +45,7 @@ blog_section_path = "/posts"
 back_link_text = "Back" # Text of the back button
 force_theme = false # false | "light" | "dark"
 
-footer_copyright = "© 2026 Your Name"
+footer_copyright = "© 2026 Qorner"
 
 # entry_image = "img/sk.jpg"
 entry_image_alt = "Hello"
@@ -54,8 +54,8 @@ favicon_32 = "img/favicon.svg"
 favicon_16 = "img/favicon.svg"
 apple_touch = "img/favicon.svg"
 
-name = "Your Name"
-id = ""
+name = "Qorner"
+id = "hello"
 bio = "A short bio goes here. Replace this with a sentence about yourself."
 # bio = "This is a small space for my thoughts, notes, experiments, and lessons learned along the way."
 avatar = "img/demo-avatar.svg"
