@@ -10,7 +10,7 @@ generate_feeds = false
 [extra]
 lang = "en"
 
-title = "[]~(￣▽￣)~*"
+title = "Posts"
 subtitle = "You don't have to be great to start, but you have to start to be great."
 
 date_format = "%b %d"
